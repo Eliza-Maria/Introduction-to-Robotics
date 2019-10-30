@@ -1,1 +1,1 @@
-# Lab-homework
+# Repository for the Introduction to Robotics course
