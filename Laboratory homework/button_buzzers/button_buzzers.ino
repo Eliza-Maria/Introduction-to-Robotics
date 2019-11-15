@@ -4,21 +4,20 @@ const int pushButtonPin=2;
 
 int knockValue = 0;
 int activeBuzzerValue = 440;
-
-int activeBuzzerDelay=200;
-
-int sing = 0;
+int activeBuzzerDelay=200; //for the active buzzer
 
 unsigned long lastDebounceTime;
 int lastButtonState = 1;
 int readingButton = 0;
 int buttonState = 1;
+const int interval= 50; //for the button
 
-const int interval= 50;
 const int threshold = 1;
 unsigned long lastKnock = 0;
 const int knockDelay = 10;
-int singState = 0;
+int knockState = 0; // for the passive button
+
+int sing = 0; //tells us if the buzzer is singing or not
 
 void setup() {
   // put your setup code here, to run once:
@@ -34,16 +33,16 @@ void loop() {
   Serial.println(knockValue);
 //  if (knockValue > threshold)
 //  {
-//    singState = 1;
+//    knockState = 1;
 //  }
 //
 //  if(millis()-lastKnock > knockDelay)
 //    {
-//      if(singState == 1)
+//      if(knockState == 1)
 //      {  
 //        sing=1;
 //        lastKnock = millis();
-//        singState = 0;
+//        knockState = 0;
 //      }
 //    }
   
@@ -72,7 +71,5 @@ void loop() {
   {
     tone(activeBuzzerPin, activeBuzzerValue, activeBuzzerDelay);
   }
-  //tone(activeBuzzerPin, activeBuzzerValue, activeBuzzerDelay);
-  //delay(activeBuzzerDelay);
   
 }
