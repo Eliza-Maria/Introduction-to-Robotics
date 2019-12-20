@@ -1,5 +1,4 @@
 #include "LedControl.h" //  need the library
-#include <EEPROM.h>
 
 LedControl lc = LedControl(12, 11, 10, 1); //DIN, CLK, LOAD, No. DRIVER
 
@@ -8,6 +7,7 @@ LedControl lc = LedControl(12, 11, 10, 1); //DIN, CLK, LOAD, No. DRIVER
 #include "Ball.h"
 #include "Animations.h"
 #include "Display.h"
+#include "EepromFunctions.h"
 
 
 //BALL
@@ -45,7 +45,7 @@ void setup() {
 
 	_EEGET(highScore, 0);
 
-	Serial.println(highScore);
+	highScore = EEPROMReadInt(0);
 
 	levelStartedAt = 0;
 }
@@ -97,7 +97,7 @@ void loop() {
 
 		if (currScore > highScore)
 		{
-			_EEPUT(0, currScore);
+			EEPROMWriteInt(0, currScore);
 		}
 		//doLoseAnimation();
 	}
