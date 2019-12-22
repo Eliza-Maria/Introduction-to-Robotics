@@ -48,31 +48,30 @@ bool readJoystickButton()
 
 void readJoystickMenu(int &selectState)
 {
-	valX = analogRead(joyX);
 	valY = analogRead(joyY);
 
-	if (valX > 600 && joystickMovedX == false)
+	if (valY > 600 && joystickMovedY == false)
 	{
 		selectState++;
-		joystickMovedX = true;
-		if (selectState > 2)
+		joystickMovedY = true;
+		if (selectState > 1)
 		{
 			selectState = 0;
 		}
 	}
 
-	if (valX < 400 && joystickMovedX == false)
+	if (valY < 400 && joystickMovedY == false)
 	{
 		selectState--;
-		joystickMovedX = true;
+		joystickMovedY = true;
 		if (selectState < 0)
 		{
-			selectState = 2;
+			selectState = 1;
 		}
 	}
-	if (valX <= 600 && valX >= 400)
+	if (valY <= 600 && valY >= 400)
 	{
-		joystickMovedX = false;
+		joystickMovedY = false;
 	}
 }
 void readJoystickGame()
