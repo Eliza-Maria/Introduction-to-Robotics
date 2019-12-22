@@ -5,3 +5,6 @@ Description: this game has some similarities with the well known brick breaker g
 How the game meets the requirements: 
 - hardware used: 8x8 led matrix, joystick, driver, lcd.
 - game specifications: it has a score, the player is time pressured, there are multiple creative levels so the player doesn't get bored, the levels change in complexity and difficulty, the player will be rewarded if it has a win streak(one win = one completed level), animations will be added after each completed level, the highscore highly depends on the win streaks, since the game punishes you for each loss.
+
+
+Link to the game demo: https://youtu.be/m9NEFEcZw2U 
