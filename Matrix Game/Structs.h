@@ -48,7 +48,7 @@ struct level
 	int ballSpeedRate;
 	long timeToComplete;
 
-	level(int index_, int pointsPerBlock_, int numberOfBlocks_, block blocks_[], int ballSpeedRate_, int timeToComplete_):
+	level(int index_, int pointsPerBlock_, int numberOfBlocks_, block blocks_[], int ballSpeedRate_, long timeToComplete_):
 		index(index_), pointsPerBlock(pointsPerBlock_), numberOfBlocks(numberOfBlocks_),
 		ballSpeedRate(ballSpeedRate_), timeToComplete(timeToComplete_)
 	{
@@ -68,7 +68,6 @@ struct level
 		ballSpeedRate = 0;
 		blocks = (block*)malloc(64);
 	}
-	//const int maxScore;
 
 	inline level operator=(level toCopy)
 	{
