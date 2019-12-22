@@ -8,10 +8,9 @@ LedControl lc = LedControl(12, 11, 10, 1); //DIN, CLK, LOAD, No. DRIVER
 #include "Animations.h"
 #include "Display.h"
 #include "EepromFunctions.h"
-
+#include "Levels.h"
 
 //BALL
-//const int moveBallInterval = 500;
 unsigned long lastTimeBallMoved = 0;
 
 
@@ -19,10 +18,8 @@ unsigned long lastTimeBallMoved = 0;
 bool gameOver = false;
 bool gameRunning = true;
 
-int currLevel = 0;
-int lastLevel = 0;
-
-unsigned long long levelStartedAt;
+bool showMenu = false;
+bool showScore = false;
 
 //animations
 bool doLoseAnimation = false;
@@ -33,44 +30,52 @@ bool levelUpAnim = false;
 
 
 void setup() {
-   // the zero refers to the MAX7219 number, it is zero for 1 chip
+	// the zero refers to the MAX7219 number, it is zero for 1 chip
 	setupJoystickPins();
+	setupDisplay();
+
+
 	lc.shutdown(0, false); // turn off power saving, enables display
 	lc.setIntensity(0, 2); // sets brightness (0~15 possible values)
 	lc.clearDisplay(0);// clear screen
 	Serial.begin(9600);
 
-	resetLevels();
-	Serial.println("setup");
 
-	_EEGET(highScore, 0);
 
 	highScore = EEPROMReadInt(0);
+	Serial.println(highScore);
 
 	levelStartedAt = 0;
+	resetLevels();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+	// put your main code here, to run repeatedly:
 
 	readJoystickGame();
 	bool reset = readJoystickButton();
 
-	/*if (gameOver)
+	if (showMenu)
 	{
-		displayMenu(gameOver, gameRunning);
+		displayMenu(showMenu, reset);
 	}
 	else
 	{
-		displayScoreAndLevel();
-
-	}*/
+		if (showScore)
+		{
+			displayScore();
+		}
+		else
+		{
+			displayTimeAndLevel();
+		}
+	}
 
 	lc.clearDisplay(0); //clear the matrix
 
 	if (millis() - levelStartedAt > Levels[currLevel].timeToComplete)
 	{
-		gameOver = true;
+		currLevel++;
 	}
 
 
@@ -95,6 +100,9 @@ void loop() {
 		resetLoseAnimation();
 		doLoseAnimation = true;
 
+		showMenu = true;
+		lcd.clear();
+
 		if (currScore > highScore)
 		{
 			EEPROMWriteInt(0, currScore);
@@ -104,22 +112,24 @@ void loop() {
 
 	if (currLevel != lastLevel)
 	{
+		levelStartedAt = millis(); //we disable it temporarily
+
 		//we leveled up
 		gameRunning = false;
+		showScore = true;
+		lcd.clear();
 
 		if (lastLevel == maxLevel)
 		{
 			resetLoseAnimation();
 			levelUpAnim = true;
-			//doWinAnimation(); //until it resets
-			//display that if u click the joystick u can restart
 		}
 		else
 		{
 			resetLoseAnimation();
 			levelUpAnim = true;
 			animationStartedAt = millis();
-			//doWinAnimation(); //10 sec
+			//does animations for 10 sec
 		}
 
 		lastLevel = currLevel;
@@ -127,15 +137,13 @@ void loop() {
 
 	if (reset)
 	{
+		resetToFirstLevel();
+		reset = false;
 		gameRunning = true;
-		doLoseAnimation = false;
-		resetLevels();
 		resetBall();
 		resetSlide();
-		currLevel = 0;
-		lastLevel = 0;
-		currScore = 0;
 		levelStartedAt = millis();
+		doLoseAnimation = false;
 	}
 
 	//do animations
@@ -155,10 +163,16 @@ void loop() {
 	  {
 		  gameRunning = true;
 		  levelUpAnim = false;
+
+		  showScore = false;
+		  showMenu = false;
+		  doLoseAnimation = false;
+		  lcd.clear();
+
 		  levelStartedAt = millis();
+		  resetBall();
+		  resetSlide();
 	  }
   }
-
-  //Serial.println(currLevel);
 
 }
