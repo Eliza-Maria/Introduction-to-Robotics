@@ -1,10 +1,17 @@
 #pragma once
 
-#include "Structs.h"
+//#include "Structs.h"
+#include "Ball.h"
+#include "Slide.h"
 
 int currScore = 0;
 int highScore = 0;
 const int maxLevel = 3;
+
+int currLevel = 0;
+int lastLevel = 0;
+
+unsigned long levelStartedAt;
 
 //blocks
 block lvl1Blocks[8] = { { 2, 0, false }, { 3, 0, false }, { 4, 0, false }, { 5, 0, false },
@@ -42,4 +49,12 @@ void resetLevels()
 	{
 		Levels[i] = LevelsModel[i];
 	}
+}
+
+void resetToFirstLevel()
+{
+	resetLevels();
+	currLevel = 0;
+	lastLevel = 0;
+	currScore = 0;
 }
