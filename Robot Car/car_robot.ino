@@ -20,9 +20,6 @@ const int safetyDistance = 10;
 
 NewPing sonar(trigPin, echoPin, maximum_distance); //sensor function
 
-
-//const double v = 0.034; //speed of sound though cm/s
-
 void setup() {
   // put your setup code here, to run once:
   motor1.setSpeed(carSpeed);
@@ -35,40 +32,8 @@ void setup() {
   servo_motor.attach(9);
 }
 
-
 void loop() {
-  // put your main code here, to run repeatedly:
-//  motor1.run(FORWARD);  
-//  motor2.run(FORWARD);      
-//  delay(1000); 
-//  motor1.run(BACKWARD);
-//  motor2.run(BACKWARD);       
-//  delay(1000);  
-//  motor1.run(RELEASE);  
-//  motor2.run(RELEASE);      
 
-
-//myservo.write(++val);
-//delay(15);
-
-//emits ultrasonic
-//  digitalWrite(trigPin, LOW);
-//  delayMicroseconds(2);
-//  digitalWrite(trigPin, HIGH);
-//  delayMicroseconds(10);
-//  digitalWrite(trigPin, LOW);
-//
-//  duration = pulseIn(echoPin, HIGH);
-//
-//  //distance = time * speed
-//  distance = duration/2 * v;
-//  Serial.println(distance);
-
-
-//  if(millis()>timer)
-//  {
-//    goesForward = false;
-//  }
   int distanceRight = 0;
   int distanceLeft = 0;
   delay(50);
